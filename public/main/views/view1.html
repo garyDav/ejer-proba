@@ -1,0 +1,70 @@
+<div class="content row" ng-controller="mainCtrl">
+	<form class="col s12">
+		<div class="row">
+			<div class="row">
+				<div class="col s12">
+					<h4>Rango a - b</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="a" type="number" class="validate" ng-model="newObj.a">
+					<label for="a">Parametro a: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="b" type="number" class="validate" ng-model="newObj.b">
+					<label for="b">Parametro b: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="x" type="number" class="validate" ng-model="newObj.x">
+					<label for="x">Parametro x: </label>
+				</div>
+			</div>
+			<div class="row center">
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn" ng-click="calcular1(newObj);"><i class="material-icons left">cloud</i> Calcular </a>
+				</div>
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn red darken-4" ng-click="borrar1();"><i class="material-icons left">clear_all</i>Borrar </a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col s12">
+		<h3>Resultados</h3>
+		<div class="row">
+			<div class="col s6 m3">
+				<h4>Media </h4>
+			</div>
+			<div class="col s6 m3">
+				<h4>Varianza </h4>
+			</div>
+			<div class="col s6 m3">
+				<h4>F(x) </h4>
+			</div>
+			<div class="col s6 m3">
+				<h4>P(X\<\x) </h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s6 m3">
+				<p>{{res1}} </p>
+			</div>
+			<div class="col s6 m3">
+				<p>{{res2}} </p>
+			</div>
+			<div class="col s6 m3">
+				<p>{{res3}} </p>
+			</div>
+			<div class="col s6 m3">
+				<p>{{res4}} </p>
+			</div>
+		</div>
+	</div>
+</div>
+
+

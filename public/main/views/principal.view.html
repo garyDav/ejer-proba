@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col s6 m3 card small">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="http://lorempixel.com/400/200/cats/1">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Dist. Continuas<i class="material-icons right">more_vert</i></span>
+    </div>
+    <div class="card-action">
+      <a ng-click="distProbContinuas();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Distribuciones de probabilidad continuas <i class="material-icons right">close</i></span>
+      <p>
+        Es este capitulo se estudian los modelos matematicos para calcular la probabilidad en algunos problemas tipicos en los intervienen variables aleatorias continuas.
+      </p>
+    </div>
+  </div>
+
+  <div class="col s6 m3 card small">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="http://lorempixel.com/400/200/cats/2">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Dist. Conjuntas<i class="material-icons right">more_vert</i></span>
+    </div>
+    <div class="card-action">
+      <a ng-click="distProbConjuntasDiscretoBivariado();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+      <a ng-click="distProbConjuntasContinuoBivariado();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Distribuciones de probabilidad conjuntas<i class="material-icons right">close</i></span>
+      <p>
+        Algunos experimentos estadisticos pueden incluir mas de una variable aleatoria las cuales accuan en forma conjunta, y es de interes determinar la probabilidad correspondiente a los diferentes varoles que estas variables pueden tomar.
+      </p>
+    </div>
+  </div>
+
+  <div class="col s6 m3 card small">
+    <div class="card-image waves-effect waves-block waves-light">
+      <img class="activator" src="http://lorempixel.com/400/200/cats/2">
+    </div>
+    <div class="card-content">
+      <span class="card-title activator grey-text text-darken-4">Est. Inferencial <i class="material-icons right">more_vert</i></span>
+    </div>
+    <div class="card-action">
+      <a ng-click="pruebaHipotesis();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+      <a ng-click="inferenciasRelacionadasProporcionMGrandes();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+      <a ng-click="inferenciasRelacionadasVarianza();">
+        <i class="Small material-icons">insert_chart</i>
+      </a>
+    </div>
+    <div class="card-reveal">
+      <span class="card-title grey-text text-darken-4">Estadistica Inferencial <i class="material-icons right">close</i></span>
+      <p>
+        La estadistica inferencial proporciona las tecnicas para formular prepociciones acerca de la poblacion, incluyendo una medida para determinar el riesgo de la afirmacion.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.parallax').parallax();
+  });
+</script>
+
