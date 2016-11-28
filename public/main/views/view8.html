@@ -1,1 +1,133 @@
-<h2>view 8</h2>
+<div class="content row" ng-controller="mainCtrl">
+	<form class="col s12">
+		<div class="row">
+			<div class="row">
+				<div class="col s12">
+					<h4>Distribuciones de probabilidad marginal</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="fx" type="text" ng-model="newObj.fx" class="fx">
+					<label for="fx">f(x,y): </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="lx" type="number" ng-model="newObj.lx">
+					<label for="lx">Longitud de x: </label>
+					<div><input type="button" class="btn" value="Generar :)" onclick="agregarVx();"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 vectorX">
+					<!--<input id="x" type="number" ng-model="newObj.x">-->
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="ly" type="number" ng-model="newObj.ly">
+					<label for="ly">Longitud de y: </label>
+					<div><input type="button" class="btn" value="Generar :)" onclick="agregarVy();"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12 vectorY">
+					<!--<input id="x" type="number" ng-model="newObj.x">-->
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="x" type="number" ng-model="newObj.x">
+					<label for="x">Introduzca de x: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="y" type="number" ng-model="newObj.y">
+					<label for="y">Introduzca de y: </label>
+				</div>
+			</div>
+
+			<div class="row center">
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn" ng-click="calcular8(newObj);"><i class="material-icons left">cloud</i> Calcular </a>
+				</div>
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn red darken-4" ng-click="borrar8();"><i class="material-icons left">clear_all</i>Borrar </a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col s12">
+		<h3>Resultados</h3>
+		<div class="row">
+			<div class="col s3">
+				<h4>g(x) </h4>
+			</div>
+			<div class="col s3">
+				<h4>h(y) </h4>
+			</div>
+			<div class="col s3">
+				<h4>f(x|y) </h4>
+			</div>
+			<div class="col s3">
+				<h4>f(y|x) </h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s3">
+				<p>{{res1}} </p>
+			</div>
+			<div class="col s3">
+				<p>{{res2}} </p>
+			</div>
+			<div class="col s3" ng-show="res3">
+				<p>{{res3}} </p>
+			</div>
+			<div class="col s3" ng-show="res4">
+				<p>{{res4}} </p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<h4>P(X={{newObj.x}} | Y={{newObj.y}}) </h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<p>{{res5}} </p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function agregarVx() {
+		var num=Number(document.getElementById('lx').value);
+		if(num) {
+			for(var i=0;i<num;i++) {
+				$( ".vectorX" ).append("<input type='number' class='col s1' style='margin: 0 5px' ng-model='newObj.vecX"+i+"'>");
+			}
+		}
+	}
+	function agregarVy() {
+		var num=Number(document.getElementById('ly').value);
+		if(num) {
+			for(var i=0;i<num;i++) {
+				$( ".vectorY" ).append("<input type='number' class='col s1' style='margin: 0 5px' ng-model='newObj.vecY"+i+"'>");
+			}
+		}
+	}
+	function agregarVector(obj) {
+		var lx = obj.lx;
+		var ly = obj.ly
+		/*var vectorY = new Array();
+		for(var i=0;i<long;i++) {
+			vectorY[i]=Number($(".datosV")[i].value);
+		}*/
+		console.log(lx+' -- '+ly);
+	}
+</script>

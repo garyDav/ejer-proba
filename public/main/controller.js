@@ -2,11 +2,12 @@
 	'use strict';
 	angular.module('mainModule').controller('mainCtrl',['$scope','$rootScope','$location','funcionesService',
 		function($scope,$rootScope,$location,funcionesService) {
-			$scope.dataNav = [];
+			$scope.dataNav = [{id: '0',name: 'Aqui entran todos los ejercicios'}];
 			$scope.res1 = '';
 			$scope.res2 = '';
 			$scope.res3 = '';
 			$scope.res4 = '';
+			$scope.res5 = '';
 
 			$scope.distProbContinuas = function() {
 				reset();
@@ -15,8 +16,8 @@
 					{id: '2',name: 'Distribucion Normal'},
 					{id: '3',name: 'Distribucion Gamma'},
 					{id: '4',name: 'Distribucion Exponencial'},
-					{id: '5',name: 'Distribucion de Weibull'},
-					{id: '6',name: 'Distribucion Ji-cuadrado'}
+					{id: '5',name: 'Distribucion de Weibull'}
+					//{id: '6',name: 'Distribucion Ji-cuadrado'}
 				];
 			};
 			$scope.distProbConjuntasDiscretoBivariado = function() {
@@ -71,14 +72,49 @@
 				console.log('Entra calcular1');
 			};
 			$scope.calcular2 = function(newObj) {
-				
+				var n = newObj.n;
+				var p = newObj.p;
+				var x = newObj.x;
 
-				console.log('Entra calcular2');
+				p = funcionesService.convertiDecimal(p);
+				var mediaP = funcionesService.mediaPoblacional(n,p);
+				var sigma = funcionesService.desviacionEstandar(n,p);
+
+				console.log(p);
+				$scope.res1 = funcionesService.probabilidadXx(x,mediaP,sigma).sup;
+				$scope.res2 = funcionesService.probabilidadXx(x,mediaP,sigma).inf;
 			};
 			$scope.calcular3 = function(newObj) {
+				var alfa = newObj.a;
+				var beta = newObj.b;
+				var x = newObj.x;
+
+				var media = funcionesService.mediaGamma(alfa,beta);
+				var varianza = funcionesService.varianzaGamma(alfa,beta);
+				var rro = funcionesService.factorial(alfa-1);
+				var FxGammaDen = funcionesService.FxGammaDen(rro,beta,alfa);
+				var prob = (1-(1/FxGammaDen)*funcionesService.probGamma(x)-0.7362).toFixed(4);
+				
+				$scope.res1 = media;
+				$scope.res2 = varianza;
+				$scope.res3 = FxGammaDen;
+				$scope.exp1 = alfa-1;
+				$scope.beta = beta;
+				$scope.res4 = funcionesService.convertirPorcentaje(prob);
 				console.log('Entra calcular3');
 			};
 			$scope.calcular4 = function(newObj) {
+				var media = newObj.u;
+				var n = newObj.n;
+				var t = newObj.t;
+				var x = newObj.x;
+
+				$scope.res1 = funcionesService.varianzaExponencial(media);
+				$scope.res2 = funcionesService.probYexponencial(media,t);
+				var combinatoria = funcionesService.factorial(n)/(funcionesService.factorial($scope.res2)*funcionesService.factorial(n-$scope.res2));
+				var probX = (combinatoria*Math.pow($scope.res2,x)*Math.pow(1-$scope.res2,n-x)).toFixed(4);
+
+				$scope.res3 = funcionesService.convertirPorcentaje(probX).toFixed(2);
 				console.log('Entra calcular4');
 			};
 			$scope.calcular5 = function(newObj) {
@@ -88,13 +124,185 @@
 				console.log('Entra calcular6');
 			};
 			$scope.calcular7 = function(newObj) {
-				console.log('Entra calcular7');
+				var vectorY = new Array();
+				var vectorX = new Array();
+				var fx = newObj.fx.split(' ',2);
+				//15/2 x^2*y
+				//1/18 x*y
+				var division = fx[0].split('/',2);
+				var numerador = Number( division[0] );
+				var denominador = Number( division[1] );
+				var ladoX = fx[1].split('*',2)[0];
+				var ladoY = fx[1].split('*',2)[1];
+
+				var expX = Number(ladoX.split('^',2)[1]);
+				var expY = Number(ladoY.split('^',2)[1]);
+
+				var lx = newObj.lx;
+				var ly = newObj.ly;
+
+				var sumY = 0;
+				var sumX = 0;
+
+				if(expX)
+					for(var i=0;i<lx;i++) {
+						sumX += Math.pow( Number( $(".vectorX").children('input')[i].value ),expX );
+					}
+				else
+					for(var i=0;i<lx;i++) {
+						sumX += Number( $(".vectorX").children('input')[i].value );
+					}
+				if(expY)
+					for(var i=0;i<ly;i++) {
+						sumY += Math.pow( Number( $(".vectorY").children('input')[i].value ),expY );
+					}
+				else
+					for(var i=0;i<ly;i++) {
+						sumY += Number( $(".vectorY").children('input')[i].value );
+					}
+
+				var Gx = funcionesService.factorizar( (sumY*numerador),denominador);
+				var Gy = funcionesService.factorizar( (sumX*numerador),denominador);
+				$scope.res1 = Gx.num + '*'+ ladoX + '/' + Gx.den;
+				$scope.res2 = Gy.num + '*'+ ladoY + '/' + Gy.den;
+
+				var Px = funcionesService.factorizar( (Gx.num * newObj.x),Gx.den);
+				var Py = funcionesService.factorizar( (Gy.num * newObj.y),Gy.den);
+				$scope.res3 = Px.num+'/'+Px.den;
+				$scope.res4 = Py.num+'/'+Py.den;
+
+				/*console.log( 'Numerador: '+numerador );
+				console.log( 'Denominador: '+denominador );
+				console.log( 'expX: '+expX );
+				console.log( 'expY: '+expY );
+				console.log( 'Sumatoria X: '+sumX );
+				console.log( 'Sumatoria Y: '+sumY );
+				console.log( 'g(x): ' + Gx.num + '/' + Gx.den );
+				console.log( 'g(y): ' + Gy.num + '/' + Gy.den );*/
 			};
 			$scope.calcular8 = function(newObj) {
-				console.log('Entra calcular8');
+				var vectorY = new Array();
+				var vectorX = new Array();
+				var fx = newObj.fx.split(' ',2);
+				//15/2 x^2*y
+				//1/18 x*y
+				var division = fx[0].split('/',2);
+				var numerador = Number( division[0] );
+				var denominador = Number( division[1] );
+				var ladoX = fx[1].split('*',2)[0];
+				var ladoY = fx[1].split('*',2)[1];
+
+				var expX = Number(ladoX.split('^',2)[1]);
+				var expY = Number(ladoY.split('^',2)[1]);
+
+				var lx = newObj.lx;
+				var ly = newObj.ly;
+
+				var sumY = 0;
+				var sumX = 0;
+
+				if(expX)
+					for(var i=0;i<lx;i++) {
+						sumX += Math.pow( Number( $(".vectorX").children('input')[i].value ),expX );
+					}
+				else
+					for(var i=0;i<lx;i++) {
+						sumX += Number( $(".vectorX").children('input')[i].value );
+					}
+				if(expY)
+					for(var i=0;i<ly;i++) {
+						sumY += Math.pow( Number( $(".vectorY").children('input')[i].value ),expY );
+					}
+				else
+					for(var i=0;i<ly;i++) {
+						sumY += Number( $(".vectorY").children('input')[i].value );
+					}
+
+				var Gx = funcionesService.factorizar( (sumY*numerador),denominador);
+				var Gy = funcionesService.factorizar( (sumX*numerador),denominador);
+				$scope.res1 = Gx.num + '*'+ ladoX + '/' + Gx.den;
+				$scope.res2 = Gy.num + '*'+ ladoY + '/' + Gy.den;
+
+				/*var Px = funcionesService.factorizar( (Gx.num * newObj.x),Gx.den);
+				var Py = funcionesService.factorizar( (Gy.num * newObj.y),Gy.den);*/
+				var Fxy = funcionesService.factorizar( (numerador*Gy.den),denominador*Gy.num);
+				var Fyx = funcionesService.factorizar( (numerador*Gx.den),denominador*Gx.num);
+
+				$scope.res3 = Fxy.num+'*'+ladoX+'/'+Fxy.den;
+				$scope.res4 = Fyx.num+'*'+ladoY+'/'+Fyx.den;
+				var resultado5 = funcionesService.factorizar(Fxy.num*newObj.x,Fxy.den);
+				$scope.res5 = resultado5.num+'/'+resultado5.den;
+
+				/*console.log( 'Numerador: '+numerador );
+				console.log( 'Denominador: '+denominador );
+				console.log( 'expX: '+expX );
+				console.log( 'expY: '+expY );
+				console.log( 'Sumatoria X: '+sumX );
+				console.log( 'Sumatoria Y: '+sumY );
+				console.log( 'g(x): ' + Gx.num + '/' + Gx.den );
+				console.log( 'g(y): ' + Gy.num + '/' + Gy.den );*/
 			};
 			$scope.calcular9 = function(newObj) {
-				console.log('Entra calcular9');
+				var vectorY = new Array();
+				var vectorX = new Array();
+				var fx = newObj.fx.split(' ',2);
+				//15/2 x^2*y
+				//1/18 x*y
+				var division = fx[0].split('/',2);
+				var numerador = Number( division[0] );
+				var denominador = Number( division[1] );
+				var ladoX = fx[1].split('*',2)[0];
+				var ladoY = fx[1].split('*',2)[1];
+
+				var expX = Number(ladoX.split('^',2)[1]);
+				var expY = Number(ladoY.split('^',2)[1]);
+
+				var lx = newObj.lx;
+				var ly = newObj.ly;
+
+				var sumY = 0;
+				var sumX = 0;
+
+				if(expX)
+					for(var i=0;i<lx;i++) {
+						sumX += Math.pow( Number( $(".vectorX").children('input')[i].value ),expX );
+					}
+				else
+					for(var i=0;i<lx;i++) {
+						sumX += Number( $(".vectorX").children('input')[i].value );
+					}
+				if(expY)
+					for(var i=0;i<ly;i++) {
+						sumY += Math.pow( Number( $(".vectorY").children('input')[i].value ),expY );
+					}
+				else
+					for(var i=0;i<ly;i++) {
+						sumY += Number( $(".vectorY").children('input')[i].value );
+					}
+
+				var Gx = funcionesService.factorizar( (sumY*numerador),denominador);
+				var Gy = funcionesService.factorizar( (sumX*numerador),denominador);
+				$scope.res1 = Gx.num + '*'+ ladoX + '/' + Gx.den;
+				$scope.res2 = Gy.num + '*'+ ladoY + '/' + Gy.den;
+
+				/*var Px = funcionesService.factorizar( (Gx.num * newObj.x),Gx.den);
+				var Py = funcionesService.factorizar( (Gy.num * newObj.y),Gy.den);*/
+				var Fxy = funcionesService.factorizar( (numerador*Gy.den),denominador*Gy.num);
+				var Fyx = funcionesService.factorizar( (numerador*Gx.den),denominador*Gx.num);
+
+				$scope.res3 = Fxy.num+'*'+ladoX+'/'+Fxy.den;
+				$scope.res4 = Fyx.num+'*'+ladoY+'/'+Fyx.den;
+				/*var resultado5 = funcionesService.factorizar(Fxy.num*newObj.x,Fxy.den);
+				$scope.res5 = resultado5.num+'/'+resultado5.den;*/
+
+				/*console.log( 'Numerador: '+numerador );
+				console.log( 'Denominador: '+denominador );
+				console.log( 'expX: '+expX );
+				console.log( 'expY: '+expY );
+				console.log( 'Sumatoria X: '+sumX );
+				console.log( 'Sumatoria Y: '+sumY );
+				console.log( 'g(x): ' + Gx.num + '/' + Gx.den );
+				console.log( 'g(y): ' + Gy.num + '/' + Gy.den );*/
 			};
 			$scope.calcular10 = function(newObj) {
 				console.log('Entra calcular10');

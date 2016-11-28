@@ -1,1 +1,69 @@
-<h2>view 3</h2>
+<div class="content row" ng-controller="mainCtrl">
+	<form class="col s12">
+		<div class="row">
+			<div class="row">
+				<div class="col s12">
+					<h4>Distribucion Gamma</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="a" type="number" ng-model="newObj.a">
+					<label for="a">Introduzca Alfa(α): </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="b" type="number" ng-model="newObj.b">
+					<label for="b">Introduzca Beta(ß): </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="x" type="number" ng-model="newObj.x">
+					<label for="x">Variable Aleatoria X: </label>
+				</div>
+			</div>
+			<div class="row center">
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn" ng-click="calcular3(newObj);"><i class="material-icons left">cloud</i> Calcular </a>
+				</div>
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn red darken-4" ng-click="borrar3();"><i class="material-icons left">clear_all</i>Borrar </a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col s12">
+		<h3>Resultados</h3>
+		<div class="row">
+			<div class="col s3">
+				<h4>Media μ </h4>
+			</div>
+			<div class="col s3">
+				<h4>Varianza </h4>
+			</div>
+			<div class="col s3">
+				<h4>F(x) </h4>
+			</div>
+			<div class="col s3">
+				<h4>Probabilidad % </h4>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s3">
+				<p>{{res1}} </p>
+			</div>
+			<div class="col s3">
+				<p>{{res2}} </p>
+			</div>
+			<div class="col s3" ng-show="res3">
+				<p>(1/{{res3}})x^{{exp1}}*e^(-x/{{beta}}) </p>
+			</div>
+			<div class="col s3">
+				<p>{{res4}}% </p>
+			</div>
+		</div>
+	</div>
+</div>
+
