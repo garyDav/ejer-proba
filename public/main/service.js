@@ -58,6 +58,14 @@
 				var li = (-4*Math.pow(Math.E,-t/4));
 				return ( 1-(1/b)*(ls-li) ).toFixed(4);
 			},
+			hipotesisZ: function(mediaM,mediaP,sigma,n) {
+				var res = (mediaM-mediaP)/(sigma/Math.sqrt(n));
+				return res.toFixed(4);
+			},
+			hipotesisT: function(mediaM,mediaP,s,n) {
+				var res = (mediaM-mediaP)/(s/Math.sqrt(n));
+				return res.toFixed(4);
+			},
 			factorial: function(x) {
 				var fac=1;
 				for(var i=1;i<=x;i++) {

@@ -15,8 +15,8 @@
 					{id: '1',name: 'Distribucion Discreta Uniforme'},
 					{id: '2',name: 'Distribucion Normal'},
 					{id: '3',name: 'Distribucion Gamma'},
-					{id: '4',name: 'Distribucion Exponencial'},
-					{id: '5',name: 'Distribucion de Weibull'}
+					{id: '4',name: 'Distribucion Exponencial'}
+					//{id: '5',name: 'Distribucion de Weibull'}
 					//{id: '6',name: 'Distribucion Ji-cuadrado'}
 				];
 			};
@@ -314,10 +314,133 @@
 				console.log('Entra calcular12');
 			};
 			$scope.calcular13 = function(newObj) {
+				var n =newObj.n;
+				var um = newObj.um;
+				var de = newObj.de;
+				var sig = newObj.sig;
+				var up = newObj.up;
+				var ha = newObj.ha;
+
+				$scope.res1 = 'Ho: µ='+newObj.up;
+				if(ha == 'mayor') {
+					$scope.res2 = 'Ha: µ>'+newObj.up;
+					$scope.Siz = 'z>';
+				}
+				if(ha == 'menor') {
+					$scope.res2 = 'Ha: µ<'+newObj.up;
+					$scope.Siz = 'z<';
+				}
+				$scope.res3 = 'α='+funcionesService.convertiDecimal(sig);
+
+
+				console.log('parametro n: '+n);
+				console.log('parametro um: '+um);
+				console.log('parametro de: '+de);
+				console.log('parametro sig: '+sig);
+				console.log('parametro up: '+up);
+				console.log('parametro ha: '+ha);
 				console.log('Entra calcular13');
 			};
+			$scope.calcular13_Z = function(newObj) {
+				var n =newObj.n;
+				var um = newObj.um;
+				var de = newObj.de;
+				var csig = newObj.sig;
+				var sig = funcionesService.convertiDecimal(newObj.sig);
+				var up = newObj.up;
+				var ha = newObj.ha;
+				var z = newObj.z;
+
+				$scope.res5 = funcionesService.hipotesisZ(um,up,de,n);
+				if( ha == 'mayor' ) {
+					if( z>sig ) {
+						$scope.res6 = 'Se rechaza que la media poblacional es '+up+' y se concluye con una significancia de '+csig+'% que el peso promedio de la poblacion es mayor a '+up+'gr';
+					} else {
+						$scope.res6 = 'No se rechaza la ipotesis nula Ho: '+up;
+					}
+				} else {
+					if( z<sig ) {
+						$scope.res6 = 'Se rechaza que la media poblacional es '+up+' y se concluye con una significancia de '+csig+'% que el peso promedio de la poblacion es menor a '+up+'gr';
+					} else {
+						$scope.res6 = 'No se rechaza la ipotesis nula Ho: '+up;
+					}
+				}
+
+			};
 			$scope.calcular14 = function(newObj) {
-				console.log('Entra calcular14');
+				var vectorX = new Array();
+				var n = newObj.n;
+				var sig = newObj.sig;
+				var up = newObj.up;
+				var ha = newObj.ha;
+				var sumX = 0;
+				var sumVM = 0;
+				var v = n-1;
+				$scope.gradosL = v;
+
+				for(var i=0;i<n;i++) {
+					sumX += Number( $(".vectorX").children('input')[i].value );
+					vectorX[i] = Number( $(".vectorX").children('input')[i].value );
+				}
+				var mediaM = (1/n)*sumX;
+				for(var i=0;i<n;i++) {
+					sumVM += Math.pow( vectorX[i]-mediaM , 2 );
+				}
+				var S = Math.sqrt( (1/v)*sumVM );
+
+
+
+				$scope.res1 = 'Ho: µ='+up;
+				if(ha == 'mayor') {
+					$scope.res2 = 'Ha: µ>'+up;
+					$scope.res4 = 'Rechazar Ho si t>';
+					$scope.Siz = 'z>';
+				}
+				if(ha == 'menor') {
+					$scope.res2 = 'Ha: µ<'+up;
+					$scope.res4 = 'Rechazar Ho si t<';
+					$scope.Siz = 'z<';
+				}
+				$scope.res3 = funcionesService.convertiDecimal(sig);
+
+				console.log('Longitud n: '+n);
+				console.log('Sumatoria X: '+sumX);
+				console.log(vectorX);
+			};
+			$scope.calcular14_T = function(newObj) {
+				var vectorX = new Array();
+				var n = newObj.n;
+				var sig = newObj.sig;
+				var up = newObj.up;
+				var ha = newObj.ha;
+				var sumX = 0;
+				var sumVM = 0;
+				var v = n-1;
+
+				for(var i=0;i<n;i++) {
+					sumX += Number( $(".vectorX").children('input')[i].value );
+					vectorX[i] = Number( $(".vectorX").children('input')[i].value );
+				}
+				var mediaM = (1/n)*sumX;
+				for(var i=0;i<n;i++) {
+					sumVM += Math.pow( vectorX[i]-mediaM , 2 );
+				}
+				var S = Math.sqrt( (1/v)*sumVM );
+
+				$scope.res5 = funcionesService.hipotesisT(mediaM,up,S,n);
+				if( ha == 'mayor' ) {
+					if( $scope.res5>newObj.t ) {
+						$scope.res6 = 'Se rechaza que la media poblacional es '+up;
+					} else {
+						$scope.res6 = 'No hay evidencia suficinete para rechazar que la Media poblacional es '+up;
+					}
+				} else {
+					if( $scope.res5<newObj.t ) {
+						$scope.res6 = 'Se rechaza que la media poblacional es '+up;
+					} else {
+						$scope.res6 = 'No hay evidencia suficinete para rechazar que la Media poblacional es '+up;
+					}
+				}
 			};
 			$scope.calcular15 = function(newObj) {
 				console.log('Entra calcular15');

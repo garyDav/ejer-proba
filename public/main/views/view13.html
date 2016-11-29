@@ -1,1 +1,136 @@
-<h2>view 13</h2>
+<style>
+	.input-field select {
+		clear: both;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+	.input-field select option{
+		clear: both;
+		display: block;
+		margin: 0;
+		padding: 0;
+	}
+</style>
+
+<div class="content row" ng-controller="mainCtrl">
+	<form class="col s12">
+		<div class="row">
+			<div class="row">
+				<div class="col s12">
+					<h4>Prueba de Hipotesis (Muestras grandes)</h4>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d2" type="number" ng-model="newObj.n">
+					<label for="d2">Introduzca n: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d1" type="number" ng-model="newObj.um">
+					<label for="d1">Introduzca media muestral: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d3" type="number" ng-model="newObj.de">
+					<label for="d3">Desviación estandar: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d4" type="number" ng-model="newObj.sig">
+					<label for="d4">Nivel de significancia %: </label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d5" type="number" ng-model="newObj.up">
+					<label for="d5">Media poblacional: </label>
+				</div>
+			</div>
+			<div class="input-field col s12">
+				<select ng-model="newObj.ha" >
+					<option value="" disabled selected>Seleccione Ha </option>
+					<option value="mayor">Ha: µ > {{newObj.up}}  </option>
+					<option value="menor">Ha: µ < {{newObj.up}}  </option>
+				</select>
+				<!--<label>Elija la Hipotesis alternativa</label>-->
+			</div>
+			<div class="row center">
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn" ng-click="calcular13(newObj);"><i class="material-icons left">cloud</i> Calcular </a>
+				</div>
+				<div class="col s12 m6">
+					<a class="waves-effect waves-light btn red darken-4" ng-click="borrar13();"><i class="material-icons left">clear_all</i>Borrar </a>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="col s12">
+		<h3>Resultados</h3>
+		<div class="row">
+			<div class="col s4">
+				<h5>Paso 1: Hipotesis nula </h5>
+			</div>
+			<div class="col s4">
+				<h5>Paso 2: Hipotesis alternativa </h5>
+			</div>
+			<div class="col s4">
+				<h5>Paso 3: Nivel de significancia </h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s4">
+				<p>{{res1}} </p>
+			</div>
+			<div class="col s4">
+				<p>{{res2}} </p>
+			</div>
+			<div class="col s4">
+				<p>{{res3}} </p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 center-align">
+				<h5>Paso 4: Estadistico de prueba </h5>
+				<img class="responsive-img z-depth-1" ng-src="material/img/pruebaHipotesis.png">
+			</div>
+			<div class="col s12 center-align">
+				<img class="responsive-img z-depth-1" ng-src="material/img/tablaT.png">
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input id="d6" type="number" ng-model="newObj.z">
+					<label for="d6">Introducir Z por tabla: </label>
+				</div>
+			</div>
+			<div class="col s12">
+				<h5>Region de rechazo </h5>
+				<p>Zα=Z{{res3}}={{newObj.z}} => Rechazar <strong>Ho</strong> en favor de <strong>Ha</strong>, si <strong>{{Siz}}{{newObj.z}}</strong> </p>
+			</div>
+			<div class="row center">
+				<div class="col s12">
+					<a class="waves-effect waves-light btn" ng-click="calcular13_Z(newObj);"><i class="material-icons left">cloud</i> Aceptar </a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col s6">
+					<p>Z = {{res5}}</p>
+				</div>
+				<div class="col s6">
+					<p>{{res6}}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--°!"#$%&/()=?¡  _:;¬|@·~½¬{[]}\,.-}{+'"
+@ł€¶ŧ←↓→øþßðđŋħł~»¢“”nµ·-->
+
+
+<!--Φ  Χ  Ψ  Ω  Ϊ  Ϋ  ά  έ  ή  ί  ΰ  α  β  γ  δ  ε  ζ  η  θ  ι  κ  λ  μ  ν  ξ  ο  π  ρ  ς  σ  τ  υ  φ  χ  ψ  ω  ϊ  ϋ  ό  ύ  ώ  Ϗ  ϐ  ϑ  ϒ  ϓ  ϔ  ϕ  ϖ  ϗ  Ϙ  ϙ  Ϛ  ϛ  Ϝ  ϝ  Ϟ  ϟ  Ϡ  ϡ  Ϣ  ϣ  Ϥ  ϥ  Ϧ  ϧ  Ϩ  ϩ  Ϫ  ϫ  Ϭ  ϭ  Ϯ  ϯ  ϰ  ϱ  ϲ  ϳ  ϴ  ϵ  ϶  Ϸ  ϸ  Ϲ  Ϻ  ϻ  ϼ  Ͻ  Ͼ]
+Ͽ-->
